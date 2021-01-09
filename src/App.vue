@@ -1,30 +1,51 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div id="app">
+	<div>
+		<h1>Rainy vs sunny days in Menorca </h1>
+    <canvas id="planet-chart"></canvas>
+	</div>
   </div>
-  <router-view/>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+
+<script>
+import planetChartData from './chart-data.js';
+import Chart from 'chart.js';
+	export default {
+		name: 'app',
+		components: {
+			
+		},
+		data: function () {
+			return {
+				planetChartData: planetChartData,
+			}
+		},
+		methods: {
+			createChart (chartId, chartData) {
+				const ctx = document.getElementById(chartId);
+				const myChart = new Chart(ctx, {
+					type: chartData.type,
+					data: chartData.data,
+					options: chartData.options,
+				})
+				console.log(myChart)
+			}
+		},
+		mounted() {
+			this.createChart('planet-chart', this.planetChartData);
+		},
 }
+</script>
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+<style>
+canvas{
+	max-width: 75%;
+	display: flex;
+	margin: auto;
+}
+h1{
+	margin: auto;
+	text-align: center;
 }
 </style>
